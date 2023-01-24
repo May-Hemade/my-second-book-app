@@ -11,3 +11,30 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+footer{
+
+    position: fixed;  
+    bottom: 0;  
+    width: 100%;
+    z-index: 100;  
+
+
+}
+
+
+div .col{
+  padding:15ch;
+}
+.card{
+  border: none!important;
+  padding-right: 0px!important;
+  padding-left: 0px!important;
+  border: black;
+}
+
+
+
+.card-img-top{
+  height: 300px;
+}

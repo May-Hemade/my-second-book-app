@@ -1,35 +1,21 @@
-import React, { Component } from "react"
+import React, { Component, useEffect, useState } from "react"
 import { Alert, Spinner } from "react-bootstrap"
 import AddComment from "./AddComment"
 import CommentList from "./CommentList"
 
-export class CommentArea extends Component {
-  state = {
-    comments: [],
-    loading: false,
-    error: false,
-  }
-  setLoading = (loading) => {
-    this.setState((prevState) => ({
-      ...prevState,
-      loading: loading,
-    }))
-  }
+export function CommentArea(props) {
+  const [comments, setComments] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(false)
+  const [prevProps, setPrevProps] = useState(props)
 
-  setError = (error) => {
-    this.setState((prevState) => ({
-      ...prevState,
-      error: error,
-    }))
-  }
+  setError(error)
 
-  setComments = (comments) => {
-    this.setState({ comments: comments })
-  }
+  setLoading(loading)
 
-  url = `https://striveschool-api.herokuapp.com/api/comments/${this.props.id}`
+  setComments(comments)
 
-  getComments = () => {
+  const getComments = () => {
     console.log(this.props.id)
     if (!this.props.id) {
       return
@@ -48,50 +34,48 @@ export class CommentArea extends Component {
       .then((response) => response.json())
       .then((comments) => {
         console.log(comments)
-        this.setComments(comments)
-        this.setLoading(false)
-        this.setError(false)
+        setComments(comments)
+        setLoading(false)
+        setError(false)
       })
       .catch((error) => {
-        this.setLoading(false)
-        this.setError(true)
+        setLoading(false)
+        setError(true)
         console.log(error)
       })
   }
-  componentDidMount() {
-    this.getComments()
-  }
+  useEffect(() => {
+    getComments()
+  }, [])
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps.id !== this.props.id) {
-      this.getComments()
+  useEffect(() => {
+    if (prevProps.id !== props.id) {
+      getComments()
     }
-  }
+  }, [props])
 
-  render() {
-    return (
-      <div className="comment-area">
-        {this.state.error && (
-          <Alert key="secondary" variant="primary">
-            Error
-          </Alert>
-        )}
-        {this.state.loading && <Spinner animation="grow" />}
-        <CommentList
-          setError={this.setError}
-          setLoading={this.setLoading}
-          comments={this.state.comments}
-          refresh={this.getComments}
-        ></CommentList>
-        <AddComment
-          setError={this.setError}
-          setLoading={this.setLoading}
-          asin={this.props.id}
-          refresh={this.getComments}
-        ></AddComment>
-      </div>
-    )
-  }
+  return (
+    <div className="comment-area">
+      {error && (
+        <Alert key="secondary" variant="primary">
+          Error
+        </Alert>
+      )}
+      {loading && <Spinner animation="grow" />}
+      <CommentList
+        setError={setError}
+        setLoading={setLoading}
+        comments={comments}
+        refresh={getComments}
+      ></CommentList>
+      <AddComment
+        setError={setError}
+        setLoading={setLoading}
+        asin={props.id}
+        refresh={getComments}
+      ></AddComment>
+    </div>
+  )
 }
 
 export default CommentArea

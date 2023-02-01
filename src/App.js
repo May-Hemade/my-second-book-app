@@ -8,6 +8,8 @@ import books from "./books/horror.json"
 import { useState } from "react"
 import { Col, Row } from "react-bootstrap"
 import CommentArea from "./components/CommentArea"
+import ButtonComponent from "./components/ButtonComponent"
+import ImgComponent from "./components/ImgComponent"
 
 function App() {
   const [query, setQuery] = useState("")
@@ -15,6 +17,7 @@ function App() {
   return (
     <div className="App">
       <NavBook setQuery={setQuery}></NavBook>
+
       <Welcome button={"Go Somewhere"}></Welcome>
       <Row>
         <Col lg={8}>

@@ -1,14 +1,21 @@
 import React from "react"
 import { useState } from "react"
 import { Button, Form } from "react-bootstrap"
+import { Comment } from "../types/Comment"
 
-function AddComment(props) {
+type AddCommentProps = {
+  asin: string
+  setLoading: (loading: boolean) => void
+  setError: (error: boolean) => void
+  refresh: () => void
+}
+function AddComment(props: AddCommentProps) {
   const [comment, setComment] = useState("")
-  const [rate, setRate] = useState("1")
+  const [rate, setRate] = useState(1)
 
   const url = "https://striveschool-api.herokuapp.com/api/comments/"
 
-  const postComments = (comment) => {
+  const postComments = (comment: Comment) => {
     props.setLoading(true)
     props.setError(false)
     fetch(url, {
@@ -34,9 +41,9 @@ function AddComment(props) {
       })
   }
 
-  const submitComment = (event) => {
+  const submitComment = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
-    const bookComment = {
+    const bookComment: Comment = {
       comment: comment,
       rate: rate,
       elementId: props.asin,
@@ -64,7 +71,7 @@ function AddComment(props) {
           <Form.Control
             as="select"
             onChange={(event) => {
-              setRate(event.target.value)
+              setRate(parseInt(event.target.value))
             }}
           >
             <option>1</option>

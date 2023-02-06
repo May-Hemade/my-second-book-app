@@ -3,7 +3,10 @@ import Nav from "react-bootstrap/Nav"
 import Navbar from "react-bootstrap/Navbar"
 import NavDropdown from "react-bootstrap/NavDropdown"
 
-function NavBook(props) {
+type NavBookProps = {
+  setQuery: (query: string) => void
+}
+function NavBook({ setQuery }: NavBookProps) {
   return (
     <Navbar bg="light" expand="lg">
       <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
@@ -29,7 +32,7 @@ function NavBook(props) {
             type="text"
             placeholder="Search"
             className="mr-sm-2"
-            onChange={(event) => props.setQuery(event.target.value)}
+            onChange={(event) => setQuery(event.target.value)}
           />
           <Button variant="outline-success">Search</Button>
         </Form>

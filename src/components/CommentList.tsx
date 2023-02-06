@@ -1,10 +1,17 @@
 import React, { Component } from "react"
 import { ListGroup } from "react-bootstrap"
+import { Comment } from "../types/Comment"
 
-export function CommentList(props) {
+type CommentListProps = {
+  comments: Comment[]
+  setLoading: (loading: boolean) => void
+  setError: (error: boolean) => void
+  refresh: () => void
+}
+export function CommentList(props: CommentListProps) {
   const url = "https://striveschool-api.herokuapp.com/api/comments/"
 
-  const deleteComment = (id) => {
+  const deleteComment = (id: string) => {
     props.setLoading(true)
     props.setError(false)
     fetch(url + id, {
@@ -34,7 +41,7 @@ export function CommentList(props) {
         {props.comments.map((comment) => (
           <ListGroup.Item key={comment._id}>
             {comment.comment} {comment.rate}
-            <span onClick={() => deleteComment(comment._id)}>🗑️</span>
+            <span onClick={() => deleteComment(comment._id!)}>🗑️</span>
           </ListGroup.Item>
         ))}
       </ListGroup>

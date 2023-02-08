@@ -28,6 +28,7 @@ export function AllBooks(props) {
                 setSelectedBookId={props.setSelectedBookId}
                 key={book.asin}
                 book={book}
+                selectedBookId={props.selectedBookId}
               ></SingleBook>
             )
           })}

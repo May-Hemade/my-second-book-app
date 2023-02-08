@@ -8,30 +8,30 @@ function AddComment(props) {
 
   const url = "https://striveschool-api.herokuapp.com/api/comments/"
 
-  const postComments = (comment) => {
+  const postComments = async (comment) => {
     props.setLoading(true)
     props.setError(false)
-    fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2NlODBhYjM4YzkzNjAwMTUwNTc3YWIiLCJpYXQiOjE2NzQ0Nzc3NDAsImV4cCI6MTY3NTY4NzM0MH0._v7xRF3NJfqzvuSW8-D5vFdj_9fiSq17u4mBui7XFbk",
-      },
-      body: JSON.stringify(comment),
-    })
-      .then((response) => response.json())
-      .then((comment) => {
-        props.setLoading(false)
-        props.setError(false)
-        console.log("Success:", comment)
-        props.refresh()
+    try {
+      let response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization:
+            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2UxMjE1ZmQxMDYxNzAwMTUyZGU0OTMiLCJpYXQiOjE2NzU2OTg1MjgsImV4cCI6MTY3NjkwODEyOH0.WYTUIobVXU-Y_XAFktYNRzHp5Neb3ucb1WSSBdo1ShA",
+        },
+        body: JSON.stringify(comment),
       })
-      .catch((error) => {
-        props.setLoading(false)
-        props.setError(true)
-        console.log("Error:", error)
-      })
+      let comment = await response.json()
+
+      props.setLoading(false)
+      props.setError(false)
+      console.log("Success:", comment)
+      props.refresh()
+    } catch (error) {
+      props.setLoading(false)
+      props.setError(true)
+      console.log("Error:", error)
+    }
   }
 
   const submitComment = (event) => {

@@ -24,7 +24,11 @@ export function SingleBook(props) {
     <Col lg={2} md={3} gap={3}>
       <Card
         onClick={setSelectedBook}
-        className={selected ? "border border-warning" : ""}
+        className={
+          props.selectedBookId === props.book.asin
+            ? "border border-warning"
+            : ""
+        }
       >
         <Card.Img variant="top" src={props.book.img} />
         <Card.Body>

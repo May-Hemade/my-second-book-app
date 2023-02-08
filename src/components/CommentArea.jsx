@@ -8,35 +8,35 @@ export function CommentArea(props) {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(false)
 
-  const getComments = () => {
+  const getComments = async () => {
     console.log(props.id)
     if (!props.id) {
       return
     }
-    setLoading(true)
-    setError(false)
-    fetch(`https://striveschool-api.herokuapp.com/api/comments/${props.id}`, {
-      headers: {
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2NlODBhYjM4YzkzNjAwMTUwNTc3YWIiLCJpYXQiOjE2NzQ0Nzc3NDAsImV4cCI6MTY3NTY4NzM0MH0._v7xRF3NJfqzvuSW8-D5vFdj_9fiSq17u4mBui7XFbk",
-      },
-    })
-      .then((response) => response.json())
-      .then((comments) => {
-        console.log(comments)
-        setComments(comments)
-        setLoading(false)
-        setError(false)
-      })
-      .catch((error) => {
-        setLoading(false)
-        setError(true)
-        console.log(error)
-      })
+    try {
+      setLoading(true)
+      setError(false)
+      let response = await fetch(
+        `https://striveschool-api.herokuapp.com/api/comments/${props.id}`,
+        {
+          headers: {
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2UxMjE1ZmQxMDYxNzAwMTUyZGU0OTMiLCJpYXQiOjE2NzU2OTg1MjgsImV4cCI6MTY3NjkwODEyOH0.WYTUIobVXU-Y_XAFktYNRzHp5Neb3ucb1WSSBdo1ShA",
+          },
+        }
+      )
+      let comments = await response.json()
+
+      console.log(comments)
+      setComments(comments)
+      setLoading(false)
+      setError(false)
+    } catch (error) {
+      setLoading(false)
+      setError(true)
+      console.log(error)
+    }
   }
-  // useEffect(() => {
-  //   getComments()
-  // }, [])
 
   useEffect(() => {
     getComments()
